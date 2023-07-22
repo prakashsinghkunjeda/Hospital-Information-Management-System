@@ -1,0 +1,224 @@
+<div>
+    <button  style="float:right; margin-right:10px;margin-bottom: 30px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#PatientModal"> <i class="uil uil-bed" style='font-size:20px;' ></i> Add Patient</button>
+</div>
+<div>
+    <table class="table table-hover" style="margin-left: 10px;">
+      <thead>
+          <th>S.N</th>
+          <th>Patient Name</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Age</th>
+          <th>Doctor</th>
+          <th>Action</th>
+      </thead>
+      <tbody>
+          <tr *ngFor="let data of patientList; let i=index;" >
+            <td>{{i+1}}</td>
+            <td>{{data.FirstName}}&nbsp;{{data.LastName}}</td>
+            <td>{{data.Address}}</td>
+            <td>{{data.Contact}}</td>
+            <td>{{data.Age}}</td>
+            <td>{{data.Doctor.FirstName}}&nbsp;{{data.Doctor.LastName}}</td>
+            <td>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProblem" (click)="fetchId(data.Id)"
+              (click)="listProblem(data.Id)">  <i class="uil uil-file-search-alt"></i> View Problem</button>
+              <!-- <button style="margin-left: 5px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPatRow"
+              >Edit</button> -->
+              <!-- <button class="btn btn-danger" style="margin: left 5px;"  data-bs-toggle="modal" data-bs-target="#deletePatient"(click)="fetchId(data.Id)">Delete</button> -->
+            </td>
+          </tr>
+      </tbody>
+  </table>
+  </div>
+   <!-- Modal for new adding Patient -->
+   <div class="modal fade" id="PatientModal" tabindex="-1" aria-labelledby="PatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="PatientModalLabel"><i class="uil uil-bed" style='font-size:40px;' ></i> New Patient</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+             <div class="col-md-6 mb-4">
+                <label for="FirstName">First Name</label>
+                <input type="text"[(ngModel)]="patient.FirstName"  class="form-control">
+             </div>
+             <div class="col-md-6 mb-4">
+                <label for="LastName">Last Name</label>
+                <input type="text" [(ngModel)]="patient.LastName"  class="form-control">
+             </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Address">Address</label>
+                   <input type="text" [(ngModel)]="patient.Address" class="form-control">
+                </div>
+                <div class="col-md-6 mb-4">
+                   <label for="PhoneNumber">PhoneNumber</label>
+                   <input type="text" [(ngModel)]="patient.Contact"  class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Age">Age</label>
+                   <input type="text" [(ngModel)]="patient.Age" class="form-control">
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="Doctor">Doctor</label>
+                    <select name="" class="form-select" id="" (change)="onDoctorChange($event)">
+                        <option value="">Choose Doctor</option>
+                        <option value="{{item.DoctorId}}" *ngFor="let item of doctorList">{{item.FirstName}}&nbsp;{{item.LastName}}</option>
+                    </select>
+                 </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closebutton class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="addPatient()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal to add Patient Problem-->
+<div class="modal fade" id="addProblem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"> <i class="uis uis-head-side-cough" style='font-size:40px;'></i> Add Problem</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form [formGroup]="problem.ProblemGroup">
+              <div class="row">
+                  <div class="col-md-6 mb-4">
+                      <label for="Problem">Problem</label>
+                      <input type="text" formControlName="Problem"class="form-control">
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <label for="Problem">VisitDate</label>
+                    <input type="date" formControlName="ProblemVisitDate"class="form-control">
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label for="Problem">Medications</label>
+                    <input type="text" formControlName="ProblemMedications"class="form-control">
+                </div>
+            </div>
+          </form>
+          <table class="table table-hover" style="margin-left: 10px;">
+            <thead>
+                <th>S.N</th>
+                <th>Problem</th>
+                <th>VisitDate</th>
+                <th>Medication</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of problemList; let i=index;" >
+                  <td>{{i+1}}</td>
+                  <td>{{data.Problem}}</td>
+                  <td>{{data.ProblemVisitDate}}</td>
+                  <td>{{data.ProblemMedications}}</td>
+                  <!-- <td>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Medication"
+                     ><i class="uil uil-prescription-bottle"></i> Medication</button>
+                  </td> -->
+                </tr>
+            </tbody>
+        </table>
+          <div class="modal-footer">
+              <button type="button" #closebuttons class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"(click)="addPatientProblem()">Add Problem</button>
+          </div>
+      </div>
+  </div>
+</div>
+  <!-- Modal to add Patient Problem medication-->
+  <div class="modal fade" id="Medication" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"> <i class="uis uis-head-side-cough" style='font-size:40px;'></i> Add Medication</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+  </div>
+
+ <!-- Modal for Edit Patient -->
+ <div class="modal fade" id="editPatRow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+           <div class="col-md-6 mb-4">
+              <label for="FirstName">First Name</label>
+              <input type="text"[(ngModel)]="patient.FirstName"  class="form-control">
+           </div>
+           <div class="col-md-6 mb-4">
+              <label for="LastName">Last Name</label>
+              <input type="text" [(ngModel)]="patient.LastName"  class="form-control">
+           </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6 mb-4">
+                 <label for="Address">Address</label>
+                 <input type="text" [(ngModel)]="patient.Address" class="form-control">
+              </div>
+              <div class="col-md-6 mb-4">
+                 <label for="PhoneNumber">PhoneNumber</label>
+                 <input type="text" [(ngModel)]="patient.Contact"  class="form-control">
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6 mb-4">
+                 <label for="Age">Age</label>
+                 <input type="text" [(ngModel)]="patient.Age" class="form-control">
+              </div>
+              <div class="col-md-6 mb-4">
+                  <label for="Doctor">Doctor</label>
+                  <select name="" class="form-select" id="" (change)="onDoctorChange($event)">
+                      <option value="">Choose Doctor</option>
+                      <option value="{{item.DoctorId}}" *ngFor="let item of doctorList">{{item.FirstName}}&nbsp;{{item.LastName}}</option>
+                  </select>
+               </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="addPatient()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal for deltete confirm -->
+<div class="modal fade" id="deletePatient" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are you sure yo want to delete?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- <div class="modal-body">
+        ...
+      </div> -->
+      <div class="modal-footer">
+        <button type="button" #closedelete class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" (click)="removePatient()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div> 

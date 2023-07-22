@@ -1,0 +1,72 @@
+<header>
+  <div class="homeIcon">
+      <span ><i class="uis uis-hospital-symbol"></i>  HIMS</span>
+  </div>
+  <div class="logoutButton">
+      <button class="btn btn-sm btn-danger" (click)="logout()"> <i class="uis uis-signout"></i> Logout</button>
+  </div>
+</header>
+<div class="sectionContainer">
+  <div class="sideMenuContainer">
+      <ul class="side-menu">
+        <li class="side-menu-item">
+          <a class="side-menu-link" aria-current="page" style='font-size:20px;'> <i class="uis uis-hospital-square-sign" style='font-size:40px;'></i>  HIMS
+          </a>
+        </li>
+        <li class="side-menu-item">
+          <a class="side-menu-link" routerLink="/home/appointment" style='font-size:20px;'>  <i class="uis uis-hospital" style='font-size:40px;'></i>  Appointment</a>
+        </li>
+        <li class="side-menu-item">
+          <a class="side-menu-link" routerLink="/home/doctor" style='font-size:20px;'>  <i class="uis uis-user-md" style='font-size:40px;'></i>  Doctor</a>
+        </li>
+        <li class="side-menu-item">
+          <a class="side-menu-link" routerLink="/home/patient" style='font-size:20px;'> <i class="uil uil-bed" style='font-size:40px;' ></i>  Patient</a>
+        </li>
+      </ul>
+  </div>
+    <div class="articleContainer">
+      <router-outlet> </router-outlet>
+  </div>
+</div>
+<footer>Copyright © Prakash Singh Kunjeda 2023.</footer>
+
+
+
+   <!-- Initial apporach -->
+<!-- <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <i class="uil uil-hospital-square-sign"></i> HIMS
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+          <li class="side-menu-item">
+            <a class="nav-link active" aria-current="page" > <i class="uil uil-estate nav_icon"></i> Home
+            </a>
+          </li>
+          <li class="side-menu-item">
+            <a class="nav-link" routerLink="/home/appointment">  <i class="uil uil-hospital"></i> Appointment</a>
+          </li>
+          <li class="side-menu-item">
+            <a class="nav-link" routerLink="/home/doctor"> <i class="uil uil-user-md"></i> Doctor</a>
+          </li>
+          <li class="side-menu-item">
+            <a class="nav-link" routerLink="/home/patient"> <i class="uil uil-bed"></i> Patient</a>
+          </li>
+          
+          <li class="side-menu-item">
+            <button class="nav-link" style="border: none;" (click)="logout()">Logout </button> 
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div> 
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+ -->

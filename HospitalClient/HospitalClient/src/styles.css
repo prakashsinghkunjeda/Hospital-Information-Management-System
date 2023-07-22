@@ -1,0 +1,123 @@
+/* You can add global styles to this file, and also import other style files */
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+header {
+    background-color: rgb(30, 48, 80);
+    padding: .5rem;
+    text-align: center;
+    color: whitesmoke;
+    display: flex;
+    justify-content: space-between;
+}
+
+.homeIcon {
+    cursor: pointer;
+
+    .homeIcon-icon {
+        padding: 0 .4rem;
+    }
+
+    .homeIcon-text {
+        padding-left: .4rem;
+    }
+
+    .homeIcon-icon:hover {
+        color: burlywood;
+    }
+
+}
+
+.sideMenuContainer {
+    background: slategrey;
+    float: left;
+    width: 25%;
+    padding: 8rem 2.4rem 0;
+    height: 90vh;
+}
+
+.side-menu {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 4rem);
+    cursor: pointer;
+
+    .side-menu-item {
+        width: 100%;
+        margin-bottom: .6rem;
+
+        .side-menu-link {
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            color: black;
+            text-decoration: none;
+            border-radius: .5rem;
+            transition: color .5 ease;
+
+            .side-menu-link-icon {
+                font-size: 22px;
+                width: 2rem;
+                min-width: 2rem;
+                margin: 0 .5rem;
+                text-align: center;
+            }
+
+            .side-menu-link-text {
+                margin-left: 1.5rem;
+            }
+        }
+    }
+
+    .side-menu-item:hover {
+        .side-menu-link {
+            background-color: skyblue;
+            color: brown;
+        }
+    }
+
+}
+
+.articleContainer {
+    float: left;
+    padding: 2.4rem;
+    width: 75%;
+    background-color: seashell;
+    height: 90vh;
+    box-shadow: .05rem 0 1.25rem 0 black;
+}
+
+.sectionContainer::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+footer {
+    background-color: rgb(30, 48, 80);
+    padding: .02rem;
+    text-align: center;
+    color: whitesmoke;
+}
+
+@media (max-width: 600px) {
+
+    .sideMenuContainer,
+    .articleContainer {
+        width: 100%;
+        height: auto;
+    }
+}

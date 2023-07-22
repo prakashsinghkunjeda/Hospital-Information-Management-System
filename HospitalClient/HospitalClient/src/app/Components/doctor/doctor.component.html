@@ -1,0 +1,175 @@
+<!-- Button trigger modal -->
+<div>
+    <button  style="float:right; margin-right:10px;margin-bottom: 30px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#DoctorModal"> <i class="uil uil-user-md" style='font-size:20px;'></i> Add Doctor</button>
+</div>
+
+<div>
+  <table class="table table-hover" style="margin-left: 10px;">
+    <thead>
+        <th>S.N</th>
+        <th>Doctor Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>Specialist</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of doctorList; let i=index;" >
+          <td>{{i+1}}</td>
+          <!-- <td>{{data.DoctorId}}</td> -->
+          <td>{{data.FirstName}}&nbsp;{{data.LastName}}</td>
+          <td>{{data.Address}}</td>
+          <td>{{data.PhoneNumber}}</td>
+          <td>{{data.Specialist}}</td>
+          <td>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDoctorRow"
+             (click)="selectedDoctor(data.DoctorId)"> <i class="uil uil-edit"></i> Edit</button>&nbsp;
+
+            <button class="btn btn-danger" style="margin: left 5px;" (click)="fetchDoctorId(data.DoctorId)" data-bs-toggle="modal" data-bs-target="#deleteDoctor"> <i class="uil uil-trash-alt"></i>Delete</button>
+          </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+
+  
+  <!-- Modal for new adding Doctor  -->
+  <div class="modal fade" id="DoctorModal" tabindex="-1" aria-labelledby="DoctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="DoctorModalLabel">  <i class="uil uil-user-md" style='font-size:40px;'></i> New Doctor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="doctor.DoctorFormGroup">
+            <div class="row">
+             <div class="col-md-6 mb-4">
+                <label for="FirstName">First Name</label>
+                <input type="text" formControlName="FirstName" class="form-control">
+                <small *ngIf="doctor.DoctorFormGroup.controls['FirstName'].invalid &&
+                doctor.DoctorFormGroup.controls['FirstName'].touched" class="text-danger">
+                Required  First Name</small>
+             </div>
+             <div class="col-md-6 mb-4">
+                <label for="LastName">Last Name</label>
+                <input type="text" formControlName="LastName" class="form-control">
+                <small *ngIf="doctor.DoctorFormGroup.get('LastName')?.invalid&&
+                doctor.DoctorFormGroup.get('LastName')?.touched" class="text-danger">Required
+                Last Name</small>
+             </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Address">Address</label>
+                   <input type="text" formControlName="Address" class="form-control">
+                   <small *ngIf="doctor.DoctorFormGroup.get('Address')?.invalid&&
+                   doctor.DoctorFormGroup.get('Address')?.touched" class="text-danger">Required
+                  Address</small>
+                </div>
+                <div class="col-md-6 mb-4">
+                   <label for="PhoneNumber">PhoneNumber</label>
+                   <input type="text" formControlName="PhoneNumber" class="form-control">
+                   <small *ngIf="doctor.DoctorFormGroup.get('PhoneNumber')?.invalid&&
+                   doctor.DoctorFormGroup.get('PhoneNumber')?.touched" class="text-danger"> Invalid
+                   Phone Number</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Specialist">Specialist</label>
+                   <input type="text" formControlName="Specialist" class="form-control">
+                   <small *ngIf="doctor.DoctorFormGroup.get('Specialist')?.invalid&&
+                    doctor.DoctorFormGroup.get('Specialist')?.touched" class="text-danger">Required
+                    Specialist</small>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closebutton class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" [disabled]="doctor.DoctorFormGroup.invalid" (click)="addDoctor()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- Modal to edit Doctor  -->
+   <div class="modal fade" id="editDoctorRow" tabindex="-1" aria-labelledby="DoctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="DoctorModalLabel"> <i class="uil uil-user-md" style='font-size:40px;'></i>  Edit Doctor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="isDoctorSelected">
+          <form [formGroup]="doctor.DoctorFormGroup" >
+            <div class="row">
+             <div class="col-md-6 mb-4">
+                <label for="FirstName">First Name</label>
+                <input type="text" formControlName="FirstName" class="form-control">
+                <small *ngIf="doctor.DoctorFormGroup.controls['FirstName'].invalid &&
+                doctor.DoctorFormGroup.controls['FirstName'].touched" class="text-danger">
+                Required  First Name</small>
+             </div>
+             <div class="col-md-6 mb-4">
+                <label for="LastName">Last Name</label>
+                <input type="text" formControlName="LastName" class="form-control"><small *ngIf="doctor.DoctorFormGroup.get('LastName')?.invalid&&
+                doctor.DoctorFormGroup.get('LastName')?.touched" class="text-danger">Required
+                Last Name</small>
+             </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Address">Address</label>
+                   <input type="text"  formControlName="Address"class="form-control">
+                   <small *ngIf="doctor.DoctorFormGroup.get('Address')?.invalid&&
+                   doctor.DoctorFormGroup.get('Address')?.touched" class="text-danger">Required
+                  Address</small>
+                </div>
+                <div class="col-md-6 mb-4">
+                   <label for="PhoneNumber">PhoneNumber</label>
+                   <input type="text"  formControlName="PhoneNumber"class="form-control">
+                   <small *ngIf="doctor.DoctorFormGroup.get('PhoneNumber')?.invalid&&
+                   doctor.DoctorFormGroup.get('PhoneNumber')?.touched" class="text-danger">Invalid
+                   Phone Number</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Specialist">Specialist</label>
+                   <input type="text" formControlName="Specialist" class="form-control">
+                   <small *ngIf="doctor.DoctorFormGroup.get('Specialist')?.invalid&&
+                    doctor.DoctorFormGroup.get('Specialist')?.touched" class="text-danger">Required
+                    Specialist</small>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #close class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"  [disabled]="doctor.DoctorFormGroup.invalid" (click)="editDoctor()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal for deltete confirm -->
+<div class="modal fade" id="deleteDoctor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> <i class="uil uil-trash" style='font-size:40px;'></i> Are you sure yo want to delete?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- <div class="modal-body">
+        ...
+      </div> -->
+      <div class="modal-footer">
+        <button type="button" #closedelete class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" (click)="removeDoctor()">Yes</button>
+      </div>
+    </div>
+  </div>
+</div> 

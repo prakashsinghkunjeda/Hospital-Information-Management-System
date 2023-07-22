@@ -1,0 +1,83 @@
+<div>
+    <button  style="float:right; margin-right:10px;margin-bottom: 30px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AppPatientModal"> <i class="uil uil-hospital" style='font-size:20px;'></i> New Appointment</button>
+</div>
+<div>
+    <table class="table table-hover" style="margin-left: 10px;">
+      <thead>
+          <th>S.N</th>
+          <th>Patient Name</th>
+          <th>Address</th>
+          <th>Phone Number</th>
+          <th>Age</th>
+          <th>Doctor</th>
+          <th>Appointment Date</th>
+      </thead>
+      <tbody>
+          <tr *ngFor="let data of appointmentList; let i=index;" >
+            <td>{{i+1}}</td>
+            <td>{{data.FirstName}}&nbsp;{{data.LastName}}</td>
+            <td>{{data.Address}}</td>
+            <td>{{data.Contact}}</td>
+            <td>{{data.Age}}</td>
+            <td>{{data.Doctor.FirstName}}&nbsp;{{data.Doctor.LastName}}</td>
+            <td>{{data.VisitDate}}</td>
+          </tr>
+      </tbody>
+  </table>
+  </div>
+ <!-- Modal for new  appointment of Patient  -->
+ <div class="modal fade" id="AppPatientModal" tabindex="-1" aria-labelledby="PatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="PatientModalLabel"><i class="uil uil-hospital" style='font-size:40px;'></i> New Appointment</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+             <div class="col-md-6 mb-4">
+                <label for="FirstName">First Name</label>
+                <input type="text"[(ngModel)]="appointment.FirstName"  class="form-control">
+             </div>
+             <div class="col-md-6 mb-4">
+                <label for="LastName">Last Name</label>
+                <input type="text" [(ngModel)]="appointment.LastName"  class="form-control">
+             </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Address">Address</label>
+                   <input type="text" [(ngModel)]="appointment.Address" class="form-control">
+                </div>
+                <div class="col-md-6 mb-4">
+                   <label for="PhoneNumber">PhoneNumber</label>
+                   <input type="text" [(ngModel)]="appointment.Contact"  class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Age">Age</label>
+                   <input type="text" [(ngModel)]="appointment.Age" class="form-control">
+                </div>
+                <div class="col-md-6 mb-4">
+                    <label for="Doctor">Doctor</label>
+                    <select name="" class="form-select" id="" (change)="onDoctorChange($event)">
+                        <option value="">Choose Doctor</option>
+                        <option value="{{item.DoctorId}}" *ngFor="let item of doctorList">{{item.FirstName}}&nbsp;{{item.LastName}}</option>
+                    </select>
+                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   <label for="Address">Date</label>
+                   <input type="date" [(ngModel)]="appointment.VisitDate" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #closebutton class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="addAppPatient()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
