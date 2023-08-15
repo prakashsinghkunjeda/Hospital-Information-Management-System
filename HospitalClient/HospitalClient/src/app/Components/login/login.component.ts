@@ -22,7 +22,7 @@ doLogin(){
     this.apiservice.Login(loginData).subscribe(
         res=>{
           this.cookie.set("tokenKey",res.token);
-          this.router.navigate(['/home/appointment']);
+          this.router.navigate(['/home/dashboard']);
         },
         err=>{
             alert("Invalid Credentials");

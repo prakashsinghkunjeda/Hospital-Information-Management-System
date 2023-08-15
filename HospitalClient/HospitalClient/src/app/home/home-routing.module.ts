@@ -5,6 +5,7 @@ import { DoctorComponent } from "../Components/doctor/doctorComponent";
 import { PatientComponent } from '../Components/patient/patient.component';
 import { HomeComponent } from './home.component';
 import { AuthGuardService } from '../Service/AuthGaurd';
+import { DashboardComponent } from '../Components/dashboard/dashboard.component';
 
 const routes: Routes = [
 
@@ -25,6 +26,9 @@ const routes: Routes = [
       },
       {
         path: "appointment", component:AppointmentComponent, canActivate:[AuthGuardService]
+      },
+      {
+        path: "dashboard", component:DashboardComponent
       }
     ]
   }

@@ -9,6 +9,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { authInterceptorProviders } from '../Service/interceptor';
 import { AuthGuardService } from '../Service/AuthGaurd';
+import { DashboardComponent } from '../Components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AuthGuardService } from '../Service/AuthGaurd';
     HomeComponent,
     DoctorComponent,
     PatientComponent,
-    AppointmentComponent
+    AppointmentComponent,
+  
     ],
 
   imports: [
