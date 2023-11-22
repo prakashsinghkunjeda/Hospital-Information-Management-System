@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Appointment } from '../../Model/Appointment';
 import { ApiService } from '../../Service/api.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-appointment',
@@ -9,6 +10,7 @@ import { ApiService } from '../../Service/api.service';
 })
 export class AppointmentComponent {
   appointment: Appointment=new Appointment();
+  public AppointmentFormGroup: FormGroup;
   
   @ViewChild('closebutton')closebutton:any;
   doctorList: any;
@@ -16,15 +18,43 @@ export class AppointmentComponent {
 
   appointmentList: any;
 
-  constructor(private _service:ApiService) { 
+  constructor(private _service:ApiService,private fb: FormBuilder) { 
+    this.AppointmentFormGroup = this.fb.group({
+      // Your other form controls
+      VisitDate: ['', [Validators.required, this.validateDateNotInPast.bind(this)]],
+    });
   }
+  validateDateNotInPast(control: AbstractControl): { [key: string]: boolean } | null {
+    const visitDate = new Date(control.value);
+
+    // Check if the value is a valid date
+    if (isNaN(visitDate.getTime())) {
+      return { invalidDate: true };
+    }
+
+    const today = new Date();
+
+    if (visitDate < today) {
+      return { invalidDate: true };
+    }
+
+    return null;
+  }
+  minDateToday(): string {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  }
+
   ngOnInit(): void {
     this.listAppointment();
     this.listDoctor();
   }
 
+
   addAppPatient(){
-    this._service.postAppointmentPatient(this.appointment).subscribe(
+    let appValue:Appointment = new Appointment();
+    appValue= this.appointment.AppointmentFormGroup.value;
+    this._service.postAppointmentPatient(appValue).subscribe(
       res=>{
         alert("Appointment added Successfully");
         this.listAppointment();
@@ -36,6 +66,7 @@ export class AppointmentComponent {
       }
     );
   }
+
 
   listAppointment(){
     this._service.getappoinmentPatient().subscribe(

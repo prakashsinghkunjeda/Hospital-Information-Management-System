@@ -5,6 +5,7 @@ import { ApiService } from '../../Service/api.service';
 import { PatientProblem } from '../../Model/PatinetProblem';
 import { Medication } from '../../Model/Medication';
 import { identifierName } from '@angular/compiler';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-patient',
@@ -28,8 +29,32 @@ export class PatientComponent implements OnInit{
   
   patientId: number=0;
   problemList: any;
-  
-constructor(private _service:ApiService) { 
+  public ProblemGroup:FormGroup;
+constructor(private _service:ApiService,private fb: FormBuilder) { 
+  this.ProblemGroup = this.fb.group({
+    // Your other form controls
+    ProblemVisitDate: ['', [Validators.required, this.validateDateNotInPast.bind(this)]],
+  });
+}
+validateDateNotInPast(control: AbstractControl): { [key: string]: boolean } | null {
+  const ProblemVisitDate = new Date(control.value);
+
+  // Check if the value is a valid date
+  if (isNaN(ProblemVisitDate.getTime())) {
+    return { invalidDate: true };
+  }
+
+  const today = new Date();
+
+  if (ProblemVisitDate > today) {
+    return { invalidDate: true };
+  }
+
+  return null;
+}
+maxDateToday(): string {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
 }
 ngOnInit(): void {
     this.listPatient();
